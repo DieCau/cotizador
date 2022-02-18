@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Header from './components/Header';
 import Formulario from './components/Formulario';
 import Resumen from './components/Resumen';
+import Resultado from './components/Resultado';
+import Spinner from './components/Spinner';
 
 import styled from '@emotion/styled';
 
@@ -27,8 +29,10 @@ const [resumen, setResumen] = useState({
   }
 });
 
+const [cargando, setCargando] = useState(false);
+
 // extraer datos
-const { datos } = resumen;
+const { cotizacion, datos } = resumen;
 
 
 
@@ -42,12 +46,23 @@ const { datos } = resumen;
       <ContenedorFormulario>
         <Formulario 
           setResumen={setResumen}
+          setCargando={setCargando}
         />   
+
+        { cargando ? <Spinner /> : null }
+
 
         <Resumen 
           datos={datos}
         /> 
       
+        { !cargando
+          ?
+            <Resultado
+              cotizacion={cotizacion}
+            /> 
+          : null
+        }
       </ContenedorFormulario>
     </Contenedor>
   );
